@@ -28,9 +28,9 @@ From-scratch replication guide for the Oracle ArchNav → Azure migration projec
 
 ## Step 2 — Create Azure VM
 
-1. Create an **Ubuntu 20.04** VM
-2. Minimum specs: **8 GB RAM**, **30 GB disk**
-3. Open the following inbound ports in the Network Security Group (NSG):
+1. Create a VM with Operating System: **Linux (ubuntu 20.04)** VM 
+2. Size: **Standard D2s v3 (2 vcpus, 8 GiB memory)**
+3. Open the following inbound ports in the Network Security Group (NSG): Allow TCP 
    - `22`, `8080`, `9999`, `10389`, `4848`
 4. Note the **public IP address** — you'll need it throughout
 
