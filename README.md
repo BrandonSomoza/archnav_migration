@@ -44,18 +44,17 @@ sudo apt-get update
 sudo apt-get install -y docker.io docker-compose mysql-client git git-lfs unzip
 sudo systemctl enable docker
 sudo systemctl start docker
+
+# Install Git LFS first (required — large files will be broken without this)
+sudo apt-get install git-lfs
 git lfs install
 ```
 
 ---
 
-## Step 5 — Clone the Repository
+## Step 4 — Clone the Repository
 
 ```bash
-# Install Git LFS first (required — large files will be broken without this)
-sudo apt-get install git-lfs
-git lfs install
-
 # Clone
 git clone https://github.com/BrandonSomoza/archnav_migration.git ~
 cd ~
@@ -63,7 +62,7 @@ cd ~
 
 ---
 
-## Step 4 — Import Database
+## Step 5 — Import Database
 
 ```bash
 mysql -h migration-db.mysql.database.azure.com -u archnav_admin -pMigration123! archemy < itp/DB_MODEL/schema.sql
