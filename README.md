@@ -18,11 +18,14 @@ From-scratch replication guide for the Oracle ArchNav → Azure migration projec
 1. In the Azure Portal, create an **Azure Database for MySQL Flexible Server**
 2. Configure it with the following settings:
    - **Server name:** `migration-db`
+   - **Region:** West US 2
+   - **MySQL version:** 8.0
+   - **Tier/Size:** Burstable, B1ms (1 vCore, 2 GiB RAM, 20 GB storage)
    - **Admin username:** `archnav_admin`
    - **Password:** `Migration123!`
-   - **SSL:** Disabled (`require_secure_transport=OFF`)
+   - **SSL:** Disabled — set `require_secure_transport=OFF` under Server Parameters
 3. Create a database named `archemy`
-4. Under **Networking**, enable public access and add your VM's IP to the firewall rules
+4. Under **Networking**, enable public access and set firewall rule to `0.0.0.0 – 255.255.255.255` (allow all)
 
 ---
 
@@ -44,9 +47,6 @@ sudo apt-get update
 sudo apt-get install -y docker.io docker-compose mysql-client git git-lfs unzip
 sudo systemctl enable docker
 sudo systemctl start docker
-
-# Install Git LFS first (required — large files will be broken without this)
-sudo apt-get install git-lfs
 git lfs install
 ```
 
@@ -55,7 +55,6 @@ git lfs install
 ## Step 4 — Clone the Repository
 
 ```bash
-# Clone
 git clone https://github.com/BrandonSomoza/archnav_migration.git ~
 cd ~
 ```
@@ -120,7 +119,7 @@ http://<VM_IP>:9999/archemy/faces/login.jspx
 │   ├── apacheds/
 │   ├── fortress/
 │   ├── glassfish/
-│   │   └── adf-essentials/       # Populate manually per Step 6 (not in repo)
+│   │   └── adf-essentials/       # ADF JARs included in repo
 │   ├── build.sh
 │   ├── start.sh
 │   ├── stop.sh
@@ -142,7 +141,6 @@ http://<VM_IP>:9999/archemy/faces/login.jspx
 ## Notes
 
 - Large binary files (`.ear`, `.war`, `.zip`) are stored via **Git LFS**. Cloning without LFS installed will result in broken placeholder files instead of the actual binaries.
-- The `archnav/glassfish/adf-essentials/` directory is not tracked in this repository due to Oracle's license terms. Follow Step 6 to populate it manually.
 - SSL is disabled on the MySQL server for compatibility with the current ADF configuration.
 - For detailed Fortress/LDAP setup, refer to `itp/Installing_fortress.md` and `itp/FortressSecurity/`.
 - For detailed ADF Essentials setup, refer to `itp/Installing_adf_essentials_in_glassfish.txt`.
