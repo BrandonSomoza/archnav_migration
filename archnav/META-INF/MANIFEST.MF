@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.0RC1
+Created-By: 25.211-b12 (Oracle Corporation)
+Implementation-Vendor: Oracle Corporation
+Oracle-Version: 12.2.1.4.42.190911.2248
+Oracle-Label: JDEVADF_PT.12.2.1.4.0_GENERIC_190911.2248.S
+Oracle-Label-JDEVADF: JDEVADF_PT.12.2.1.4.0_GENERIC_190911.2248.S
+Oracle-Internal-Release: 12.2.1.4.0
+Oracle-BuildSystem: Linux - java - 1.8.0_211-b12
+Oracle-BuildTimestamp: 2019-09-12 12:55:24 -0700
+Oracle-Builder: Official Builder
+

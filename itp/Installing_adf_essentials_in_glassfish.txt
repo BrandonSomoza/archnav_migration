@@ -1,0 +1,7 @@
+Download ADF essentials 11.1.2.4 from oracle website.
+Download ADF essentials 11.1.2.4 client from oracle website.
+
+JAVA_HOME=/etc/alternatives/java_sdk_1.7.0
+export JAVA_HOME
+PATH=$JAVA_HOME/bin:$PATH
+export PATH

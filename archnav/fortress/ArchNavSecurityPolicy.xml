@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="all" name="ArchNav Security Policy">
+    <taskdef classname="org.apache.directory.fortress.core.ant.FortressAntTask" name="FortressAdmin">
+        <classpath path="${java.class.path}"/>
+    </taskdef>
+
+    <target name="all">
+        <FortressAdmin>
+
+            <!-- User Organizational Unit -->
+            <addorgunit>
+                <orgunit name="Archemy-Users" typeName="USER" description="Archemy Users OU"/>
+            </addorgunit>
+
+            <!-- Admin Role -->
+            <addadminrole>
+                <role name="Admin" description="Archemy Admin Roles" osus="Archemy-Users" begininclusive="true" endinclusive="true" beginTime="0000" endTime="0000" beginDate="none" endDate="none" beginLockDate="none" endLockDate="none" dayMask="all" timeout="0" beginrange="" endrange=""/>
+            </addadminrole>
+
+            <!-- Normal Role -->
+            <addrole>
+                <role name="Admin" description="Archemy Admin Regular Role"/>
+                <role name="NormalUser" description="Archemy Normal User Roles"/>
+            </addrole>
+
+            <!-- Admin Permission Objects -->
+            <addpermobj>
+                <permobj objName="manage-areas" ou="default" description="Archemy Manage Areas Permission Object for Admins" type="ADMIN"/>
+                <permobj objName="manage-dimensions" ou="default" description="Archemy Manage Dimensions Permission Object for Admins" type="ADMIN"/>
+                <permobj objName="manage-domains" ou="default" description="Archemy Manage Domains Permission Object for Admins" type="ADMIN"/>
+                <permobj objName="manage-bus-probs" ou="default" description="Archemy Manage Business Problems Permission Object for Admins" type="ADMIN"/>
+                <permobj objName="searchoraddcatalog" ou="default" description="Archemy Admins Add Catalog Operation Name for Search and Add Catalog Permission Object" type="ADMIN"/>
+                <permobj objName="view-customer-name" ou="default" description="Archemy Admins Operation Name for View Customer Name Permission Object" type="ADMIN"/>
+                <permobj objName="customer-info" ou="default" description="Archemy Customer Information Permission Object for Admins" type="ADMIN"/>
+            </addpermobj>
+
+            <!-- Normal User Permission Objects -->
+            <addpermobj>
+                <permobj objName="customer-profile" ou="default" description="Archemy Customer Profile Permission Object for Normal Users"/>
+                <permobj objName="register-kad-usage" ou="default" description="Archemy Register KAD Usage Permission Object for Normal Users"/>
+            </addpermobj>
+
+            <!-- Admin Permissions -->
+            <addpermop>
+                <permop objName="manage-areas" opName="View" description="Archemy Admins Operation Name for Manage Areas" type="ADMIN"/>
+                <permop objName="manage-dimensions" opName="View" description="Archemy Admins Operation Name for Manage Dimensions" type="ADMIN"/>
+                <permop objName="manage-domains" opName="View" description="Archemy Admins Operation Name for Manage Domains" type="ADMIN"/>
+                <permop objName="manage-bus-probs" opName="View" description="Archemy Admins Operation Name for Manage Business Problems" type="ADMIN"/>
+            </addpermop>
+
+            <!-- Normal User Permissions -->
+            <addpermop>
+                <permop objName="customer-profile" opName="View" description="Archemy Operation Name for Normal Users Customer Profile Permission Object"/>
+                <permop objName="register-kad-usage" opName="View" description="Archemy Operation Name for Normal Users Register KAD Usage Permission Object"/>
+            </addpermop>
+
+            <!-- Grant Admin Permissions to Admin Role -->
+            <addpermgrant>
+                <permgrant objName="manage-areas" opName="View" roleNm="Admin" admin="true"/>
+                <permgrant objName="manage-dimensions" opName="View" roleNm="Admin" admin="true"/>
+                <permgrant objName="manage-domains" opName="View" roleNm="Admin" admin="true"/>
+                <permgrant objName="manage-bus-probs" opName="View" roleNm="Admin" admin="true"/>
+            </addpermgrant>
+
+            <!-- Grant Admin Permissions to regular Admin Role -->
+            <addpermgrant>
+                <permgrant objName="manage-areas" opName="View" roleNm="Admin"/>
+                <permgrant objName="manage-dimensions" opName="View" roleNm="Admin"/>
+                <permgrant objName="manage-domains" opName="View" roleNm="Admin"/>
+                <permgrant objName="manage-bus-probs" opName="View" roleNm="Admin"/>
+                <permgrant objName="customer-info" opName="View" roleNm="Admin"/>
+            </addpermgrant>
+
+            <!-- Grant Normal User Permissions to NormalUser Role -->
+            <addpermgrant>
+                <permgrant objName="customer-profile" opName="View" roleNm="NormalUser"/>
+                <permgrant objName="register-kad-usage" opName="View" roleNm="NormalUser"/>
+            </addpermgrant>
+
+            <!-- Admin User -->
+            <adduser>
+                <user userId="admin@archemy.com" password="Admin1234!" ou="Archemy-Users" description="ArchNav Admin User" cn="admin" sn="admin" beginTime="0000" endTime="0000" beginDate="20090101" endDate="20990101" beginLockDate="none" endLockDate="none" dayMask="1234567" timeout="0"/>
+            </adduser>
+
+            <!-- Assign Admin Role to Admin User -->
+            <adduserrole>
+                <userrole userId="admin@archemy.com" name="Admin" beginTime="0000" endTime="0000" beginDate="none" endDate="none" beginLockDate="none" endLockDate="none" dayMask="all" timeout="0"/>
+                <userrole userId="admin@archemy.com" name="NormalUser" beginTime="0000" endTime="0000" beginDate="none" endDate="none" beginLockDate="none" endLockDate="none" dayMask="all" timeout="0"/>
+            </adduserrole>
+
+            <adduseradminrole>
+                <userrole userId="admin@archemy.com" name="Admin" beginTime="0000" endTime="0000" beginDate="none" endDate="none" beginLockDate="none" endLockDate="none" dayMask="all" timeout="0"/>
+            </adduseradminrole>
+
+        </FortressAdmin>
+    </target>
+</project>
