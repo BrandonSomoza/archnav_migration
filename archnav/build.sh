@@ -2,7 +2,7 @@
 set -e
 
 echo "Bringing down containers and volumes..."
-cd ~/archnav
+cd ~/archnav_migration/archnav
 sudo docker-compose down -v
 
 echo "Building apacheds..."
