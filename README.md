@@ -97,6 +97,12 @@ http://<VM_IP>:9999/archemy/faces/login.jspx
 
 ---
 
+
+## NOTE
+I wasn't able to get the full GUI to render, nor the search to work appropriately. I suspect it might have to do with mismatched ADF Essentials versions, I used a more modern one here compared to the 11.xxx one used in the google drive. The professor said it was OK during the demo presentation ("You got close enough") and told me to make this note. 
+If you run into any issues with running this, please reach out to Brandon Somoza (bjs9662@nyu.edu)
+
+
 ## Day-to-Day Usage
 
 ```bash
