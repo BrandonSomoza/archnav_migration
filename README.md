@@ -20,20 +20,21 @@ From-scratch replication guide for the Oracle ArchNav → Azure migration projec
    - **Server name:** `migration-db`
    - **Region:** West US 2
    - **MySQL version:** 8.0
-   - **Tier/Size:** Burstable, B1ms (1 vCore, 2 GiB RAM, 20 GB storage)
+   - **Tier/Size:** Dev/Test → Burstable, B1ms (1 vCore, 2 GiB RAM, 20 GB storage)
+   - **Enable MySQL authentication only**
    - **Admin username:** `archnav_admin`
    - **Password:** `Migration123!`
-   - **SSL:** Disabled — set `require_secure_transport=OFF` under Server Parameters
-3. Create a database named `archemy`
-4. Under **Networking**, enable public access and set firewall rule to `0.0.0.0 – 255.255.255.255` (allow all)
+   - **Database Port:** `3306`
+   - **Enable Public Access:** Set firewall rule to `0.0.0.0 – 255.255.255.255` (allow all)
+3. **SSL:** Disabled — set `require_secure_transport=OFF` under Server Parameters
 
 ---
 
 ## Step 2 — Create Azure VM
 
-1. Create a VM with Operating System: **Linux (ubuntu 20.04)** VM 
+1. Create a VM with Operating System: **Linux (ubuntu 20.04 LTS)**
 2. Size: **Standard D2s v3 (2 vcpus, 8 GiB memory)**
-3. Open the following inbound ports in the Network Security Group (NSG): Allow TCP 
+3. After creating the VM, open the following inbound ports in the Network Security Group (NSG): Allow TCP
    - `22`, `8080`, `9999`, `10389`, `4848`
 4. Note the **public IP address** — you'll need it throughout
 
@@ -55,8 +56,8 @@ git lfs install
 ## Step 4 — Clone the Repository
 
 ```bash
-git clone https://github.com/BrandonSomoza/archnav_migration.git ~
-cd ~
+git clone https://github.com/BrandonSomoza/archnav_migration.git ~/archnav_migration
+cd ~/archnav_migration
 ```
 
 ---
@@ -64,8 +65,9 @@ cd ~
 ## Step 5 — Import Database
 
 ```bash
-mysql -h migration-db.mysql.database.azure.com -u archnav_admin -pMigration123! archemy < itp/DB_MODEL/schema.sql
-mysql -h migration-db.mysql.database.azure.com -u archnav_admin -pMigration123! archemy < itp/DB_MODEL/procedures.sql
+mysql -h migration-db.mysql.database.azure.com -u archnav_admin -pMigration123! -e "CREATE DATABASE archemy;"
+mysql -h migration-db.mysql.database.azure.com -u archnav_admin -pMigration123! archemy < ~/archnav_migration/itp/DB_MODEL/schema.sql
+mysql -h migration-db.mysql.database.azure.com -u archnav_admin -pMigration123! archemy < ~/archnav_migration/itp/DB_MODEL/procedures.sql
 ```
 
 > The SQL files are located in `itp/DB_MODEL/` in this repository.
@@ -75,7 +77,7 @@ mysql -h migration-db.mysql.database.azure.com -u archnav_admin -pMigration123! 
 ## Step 6 — Build and Start
 
 ```bash
-cd ~/archnav && ./build.sh
+cd ~/archnav_migration/archnav && ./build.sh
 ```
 
 ---
@@ -98,9 +100,8 @@ http://<VM_IP>:9999/archemy/faces/login.jspx
 ## Day-to-Day Usage
 
 ```bash
-./start.sh   # Start the application
-./stop.sh    # Stop the application
-./build.sh   # Full rebuild (use if something breaks)
+cd ~/archnav_migration/archnav && ./build.sh   # Full rebuild (use if something breaks)
+If run out of space, clear disk of containers and images and then run again.
 ```
 
 ---
@@ -108,7 +109,7 @@ http://<VM_IP>:9999/archemy/faces/login.jspx
 ## Repository Structure
 
 ```
-~/
+~/archnav_migration/
 ├── META-INF/
 │   └── MANIFEST.MF
 ├── apacheds-fortress.ldif        # LDAP/Fortress configuration
